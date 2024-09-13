@@ -1,0 +1,33 @@
+id: rwt_tools_message_to_stream
+label: Message to Stream
+category: '[RWT Tools]'
+
+parameters:
+-   id: type
+    label: PDU Type
+    dtype: enum
+    default: '0'
+    options: ['3', '2', '1', '0']
+    option_labels: ['Complex', 'Float', 'Short', 'Byte']
+    option_attributes:
+        output: [complex, float, short, byte]
+    hide: part
+-   id: custom_meta
+    label: Metadata to Tag
+    dtype: string
+    default: ''
+  
+inputs:
+-   domain: message
+    id: message_in
+
+outputs:
+-   domain: stream
+    dtype: ${ type.output }
+
+templates:
+  imports: from gnuradio import rwt_tools
+  make: rwt_tools.message_to_stream(${type}, ${custom_meta})
+  
+  
+file_format: 1

@@ -1,0 +1,45 @@
+id: rwt_tools_ook_preamble_correlator
+label: OOK Preamble Correlator (Float In)
+category: '[RWT Tools]'
+
+templates:
+  imports: from gnuradio import rwt_tools
+  make: rwt_tools.ook_preamble_correlator(${sampleRate}, ${symbolRate}, ${preamble}, ${threshold})
+  callbacks:
+  - set_sampleRate(${sampleRate})
+  - set_symbolRate(${symbolRate})
+  - set_preamble(${preamble})
+  - set_threshold(${threshold})
+
+parameters:
+-   id: symbolRate
+    label: Symbol Rate
+    dtype: int
+    default: '10e3'
+-   id: sampleRate
+    label: Sample Rate
+    dtype: int
+    default: '1e6'
+-   id: preamble
+    label: Preamble Bits
+    dtype: int_vector
+    default: '[1,0,1,0,1,0,1,0]'
+-   id: threshold
+    label: Threshold
+    dtype: float
+    default: '0.9'
+
+inputs:
+-   label: samples
+    domain: stream
+    dtype: float
+
+outputs:
+-   label: out
+    domain: stream
+    dtype: float
+-   label: correlation_magnitude
+    domain: stream
+    dtype: float
+    
+file_format: 1

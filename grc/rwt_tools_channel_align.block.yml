@@ -1,0 +1,24 @@
+id: rwt_tools_channel_align
+label: channel_align
+category: '[RWT Tools]'
+
+templates:
+  imports: from gnuradio import rwt_tools
+  make: rwt_tools.channel_align(${NumChannels})
+
+parameters:
+- id: NumChannels
+  label: Number of Channels
+  dtype: int
+
+inputs:
+- label: in0
+  dtype: complex
+
+outputs:
+- label: out0
+  dtype: complex
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1

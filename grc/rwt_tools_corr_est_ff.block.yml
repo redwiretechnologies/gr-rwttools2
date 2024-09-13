@@ -1,0 +1,64 @@
+id: rwt_tools_corr_est_ff
+label: Correlation Estimator (Float)
+category: '[RWT Tools]'
+
+flags: [ python, cpp ]
+
+parameters:
+-   id: symbols
+    label: Symbols
+    dtype: float_vector
+-   id: sps
+    label: Samples per Symbol
+    dtype: float
+-   id: mark_delay
+    label: Tag marking delay
+    dtype: int
+-   id: threshold
+    label: Threshold
+    dtype: float
+    default: '0.9'
+-   id: threshold_method
+    label: Threshold Method
+    dtype: enum
+    options: [digital.THRESHOLD_ABSOLUTE, digital.THRESHOLD_DYNAMIC]
+    option_labels: [Absolute, Dynamic]
+
+inputs:
+-   domain: stream
+    dtype: float
+
+outputs:
+-   domain: stream
+    dtype: float
+-   label: corr
+    domain: stream
+    dtype: float
+    optional: true
+
+templates:
+    imports: from gnuradio import rwt_tools
+    make: rwt_tools.corr_est_ff(${symbols}, ${sps}, ${mark_delay}, ${threshold}, ${threshold_method})
+    callbacks:
+    - set_mark_delay(${mark_delay})
+    - set_threshold(${threshold})
+
+cpp_templates:
+    includes: ['#include <gnuradio/rwt_tools/corr_est_ff.h>']
+    declarations: 'digital::corr_est_ff::sptr ${id};'
+    make: |-
+        std::vector<float> symbols = {${str(symbols)[1:-1]}};
+        this->${id} = digital::corr_est_ff::make(
+            symbols,
+            ${sps},
+            ${mark_delay},
+            ${threshold},
+            ${threshold_method});
+    link: ['gnuradio-digital']
+    callbacks:
+    - set_mark_delay(${mark_delay})
+    - set_threshold(${threshold})
+    translations:
+        digital.: 'digital::'
+
+file_format: 1

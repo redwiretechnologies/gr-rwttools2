@@ -1,0 +1,8 @@
+gr-rwt_tools.bundle
+*~
+*.pyc
+*.pyo
+build/
+docs/doxygen/doxyxml/__pycache__/
+docs/doxygen/doxyxml/generated/__pycache__/
+examples/grc/*.py

@@ -1,0 +1,252 @@
+options:
+  parameters:
+    author: jbonior
+    category: '[RWT Tools]'
+    cmake_opt: ''
+    comment: ''
+    copyright: Red Wire Technologies
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: detect_demod
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Detect and Demodulate
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 36.0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: FreqDev
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Frequency Deviation
+    short_id: ''
+    type: ''
+    value: 29e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 428.0]
+    rotation: 0
+    state: true
+- name: Preamble
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Preamble Sequence
+    short_id: ''
+    type: ''
+    value: np.tile([0, 1, 0, 1, 0, 1, 0, 1], 24)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 452.0]
+    rotation: 0
+    state: true
+- name: SampleRate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Sample Rate
+    short_id: ''
+    type: ''
+    value: 2e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 340.0]
+    rotation: 0
+    state: true
+- name: SymbolRate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Symbol Rate
+    short_id: ''
+    type: ''
+    value: 100e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 364.0]
+    rotation: 0
+    state: true
+- name: analog_quadrature_demod_cf_0_0
+  id: analog_quadrature_demod_cf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gain: SampleRate/(2*np.pi*FreqDev/8)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 284.0]
+    rotation: 0
+    state: enabled
+- name: digital_binary_slicer_fb_0_0
+  id: digital_binary_slicer_fb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [608, 288.0]
+    rotation: 0
+    state: enabled
+- name: digital_chunks_to_symbols_xx_1_0
+  id: digital_chunks_to_symbols_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dimension: '1'
+    in_type: byte
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    out_type: float
+    symbol_table: '[-1,1]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [768, 288.0]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy as np
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 44.0]
+    rotation: 0
+    state: true
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: samples_out
+    num_streams: '1'
+    optional: 'False'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1272, 268.0]
+    rotation: 0
+    state: true
+- name: pad_sink_1
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: corr_out
+    num_streams: '1'
+    optional: 'True'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1272, 332.0]
+    rotation: 0
+    state: true
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [256, 284.0]
+    rotation: 0
+    state: true
+- name: rwt_tools_ook_preamble_correlator_0
+  id: rwt_tools_ook_preamble_correlator
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    preamble: Preamble
+    sampleRate: int(SampleRate)
+    symbolRate: int(SymbolRate)
+    threshold: 1/(len(Preamble)*SampleRate/SymbolRate)*0.70
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 260.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [analog_quadrature_demod_cf_0_0, '0', digital_binary_slicer_fb_0_0, '0']
+- [digital_binary_slicer_fb_0_0, '0', digital_chunks_to_symbols_xx_1_0, '0']
+- [digital_chunks_to_symbols_xx_1_0, '0', rwt_tools_ook_preamble_correlator_0, '0']
+- [pad_source_0, '0', analog_quadrature_demod_cf_0_0, '0']
+- [rwt_tools_ook_preamble_correlator_0, '0', pad_sink_0, '0']
+- [rwt_tools_ook_preamble_correlator_0, '1', pad_sink_1, '0']
+
+metadata:
+  file_format: 1

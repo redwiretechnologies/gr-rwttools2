@@ -1,0 +1,25 @@
+id: rwt_tools_tx_burst_tagger_cc
+label: Tx Burst Tagger
+category: '[RWT Tools]'
+
+parameters:
+-   id: add_length
+    label: Add Length
+    dtype: int
+-   id: multiplier
+    label: Multiplier
+    dtype: int
+
+inputs:
+-   domain: stream
+    dtype: complex
+
+outputs:
+-   domain: stream
+    dtype: complex
+
+templates:
+  imports: from gnuradio import rwt_tools
+  make: rwt_tools.tx_burst_tagger_cc(${add_length}, ${multiplier})
+
+file_format: 1

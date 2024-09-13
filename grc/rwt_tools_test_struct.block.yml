@@ -1,0 +1,48 @@
+id: pattern_recognizer_config
+label: Pattern Recognizer Configuration
+category: '[Reef]'
+flags: [ show_id, python ]
+
+parameters:
+-   id: value
+    label: Ignore Me
+    dtype: raw
+    default: '"ok"'
+    hide: all
+-   id: binary_convert_threshold_1
+    label: Binary Slice Threshold
+    dtype: float
+    default: '0.2'
+-   id: match_threshold_1
+    label: Match Threshold
+    dtype: float
+    default: '1.8'
+-   id: pattern_1
+    label: Match Pattern
+    dtype: string
+    default: "11111111111111111111111111111111"
+-   id: symbol_rate_1
+    label: Symbol Rate
+    dtype: real
+    default: '7e3'
+-   id: gfsk_mode_1
+    label: GFSK Mode
+    dtype: bool
+    default: 'False'
+    options: ['True', 'False']
+    option_labels: ['True', 'False']
+-   id: stream_num_1
+    label: Stream Number
+    dtype: int
+    default: 0
+
+value: ${ value }
+    
+templates:
+    var_make: |-
+        self.${id} = ${id} = dict({'binary_convert_threshold_1': ${binary_convert_threshold_1}, 'match_threshold_1': ${match_threshold_1}, 'pattern_1': ${pattern_1}, 'symbol_rate_1': ${symbol_rate_1}, 'gfsk_mode_1': ${gfsk_mode_1}, 'stream_num_1': ${stream_num_1}})
+        
+    var_value: |-
+        dict({'binary_convert_threshold_1': ${binary_convert_threshold_1}, 'match_threshold_1': ${match_threshold_1}, 'pattern_1': ${pattern_1}, 'symbol_rate_1': ${symbol_rate_1}, 'gfsk_mode_1': ${gfsk_mode_1}, 'stream_num_1': ${stream_num_1}})
+
+file_format: 1
